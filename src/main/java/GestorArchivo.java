@@ -7,8 +7,8 @@ import java.nio.file.StandardCopyOption;
 public class GestorArchivo {
 
     /**
-     * Crea un directorio en la ruta específica, sólo si no existe
-     * @param ruta Ruta deonde se va a crear el directorio
+     * Crea un directorio en la ruta específicada, sólo si no existe
+     * @param ruta Ruta donde se va a crear el directorio
      */
     public void crearDirectorio(String ruta){
         Path directorio = Paths.get(ruta);
