@@ -1,10 +1,83 @@
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GestorArchivo {
+
+    /**
+     * Retorna la lista de todos los archivos de la ruta ingresada en forma de String
+     * @param ruta Ruta donde se va a crear la lista de archivos
+     * @return Lista de archivos
+     */
+    public String listarArchivos(String ruta) {
+
+        List<String> lista;
+
+        try{
+            Stream<Path> stream = Files.walk(Paths.get(ruta));
+            lista = stream
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+        } catch (IOException e){
+            return "";
+        }
+
+        StringBuilder s = new StringBuilder();
+
+        // Para cada ruta en el arreglo (excepto la primera, ya que es la ruta en sí)
+        for(int i=1; i<lista.size(); i++){
+
+            // La añade al StringBuilder, pero elimina la primera parte de la ruta
+            s.append(lista.get(i).substring(ruta.length()+1));
+
+            if(i < lista.size()-1){
+                s.append("\n");
+            }
+        }
+
+        return s.toString();
+    }
+
+    /**
+     * Retorna la lista de archivos de la ruta ingresada en forma de String
+     * @param ruta Ruta donde se va a crear la lista de archivos
+     * @param profundidad Profundidad máxima en la que se listarán los archivos
+     * @return Lista de archivos
+     */
+    public String listarArchivos(String ruta, int profundidad) {
+
+        List<String> lista;
+
+        try{
+            Stream<Path> stream = Files.walk(Paths.get(ruta));
+            lista = stream
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+        } catch (IOException e){
+            return "";
+        }
+
+        StringBuilder s = new StringBuilder();
+
+        // Para cada ruta en el arreglo (excepto la primera, ya que es la ruta en sí)
+        for(int i=1; i<lista.size(); i++){
+
+            // La añade al StringBuilder, pero elimina la primera parte de la ruta
+            s.append(lista.get(i).substring(ruta.length()+1));
+
+            if(i < lista.size()-1){
+                s.append("\n");
+            }
+        }
+
+        return s.toString();
+    }
 
     /**
      * Crea un directorio en la ruta específicada, sólo si no existe
@@ -31,6 +104,7 @@ public class GestorArchivo {
      */
     public void crearArchivo(String ruta){
         Path archivo = Paths.get(ruta);
+
         try{
             Files.write(archivo, "".getBytes());
         }catch(IOException e){
